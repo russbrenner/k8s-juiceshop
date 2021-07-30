@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cpappsec-cp-ingress
+  labels:
+    app.kubernetes.io/name: cpappsec-cp-ingress
+spec:
+  tls:
+  - hosts:
+    - "juice.cpappsec.site"
+    secretName: store-secret
+  rules:
+  - host: "juice.cpappsec.site"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: juice-shop
+            port:
+              number: 8080
