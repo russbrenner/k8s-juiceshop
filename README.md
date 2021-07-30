@@ -1,7 +1,7 @@
 # K8s, Juiceshop & Check Point Appsec
 
 ## Overview
-This repository installs K8s on AKS with Terraform, deploys Juiceshop and secures it with Check Point Appsec
+This repository installs K8s on AKS with Terraform, deploys OWASP Juiceshop and secures it with Check Point Appsec
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ export ARM_ACCESS_KEY="<Azure Storage Account Secret>"
 > terraform apply
 >```
 
-5. Get the K8s configuration from the Terraform state and store it in a file that kubectl can read & Set an environment variable so that kubectl picks up the correct config
+5. Get the K8s configuration from the Terraform state and store it in a file that kubectl can read & set an environment variable so that kubectl picks up the correct config
 > ```
 > echo "$(terraform output kube_config)" > ./kubeconfig
 > export KUBECONFIG=./kubeconfig
@@ -44,8 +44,8 @@ export ARM_ACCESS_KEY="<Azure Storage Account Secret>"
 
 7. Create namespace
 > ```
-> kubectl create namespace appsec-kube
-> kubectl config set-context --current --namespace=appsec-kube
+> kubectl create namespace juiceshop
+> kubectl config set-context --current --namespace=juiceshop
 >```
 
 8. Deploy Juiceshop
@@ -60,7 +60,7 @@ export ARM_ACCESS_KEY="<Azure Storage Account Secret>"
 > helm install cpappsec cpAppSec/cpappsec --set agentToken="{your nanoToken}" --set platform="AKS"
 >```
 
-10. Configure Ingress & Secret
+10. Configure Ingress & Secret to access Juiceshop from outside the cluster
 > ```
 > kubectl apply -f ../juiceshop/juice-shop-secret.yaml
 > kubectl apply -f ../juiceshop/juice-shop-ingress.yaml
@@ -79,16 +79,18 @@ Get the Host domain from the ingress configuration
 >```
 
 Browse to the Host domain to access Juiceshop
+
 https://juice.cpappsec.site/
 
 ## Cleanup
+Destroy the Terraform deployment
 > ```
 > terraform destroy
 >```
 
 Optional: cleanup services
 > ```
-> kubectl delete namespace appsec-kube
+> kubectl delete namespace juiceshop
 > helm uninstall cpappsec
 > kubectl delete -f juice-shop.yaml --namespace appsec-kube
 > ```
