@@ -1,7 +1,7 @@
 # K8s, Juiceshop & Check Point Appsec
 
 ## Overview
-This repository installs K8s on AKS with Terraform, deploys OWASP Juiceshop and secures it with Check Point Appsec
+This repository installs K8s on AKS with Terraform, deploys OWASP Juiceshop and secures it with Nginx ingress & Check Point Appsec
 
 ## Prerequisites
 
@@ -33,7 +33,7 @@ export ARM_ACCESS_KEY="<Azure Storage Account Secret>"
 
 5. Get the K8s configuration from the Terraform state and store it in a file that kubectl can read & set an environment variable so that kubectl picks up the correct config
 > ```
-> echo "$(terraform output kube_config)" > ./kubeconfig
+> terraform output -raw kube_config > ./kubeconfig
 > export KUBECONFIG=./kubeconfig
 >```
 

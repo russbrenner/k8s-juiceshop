@@ -1,12 +1,18 @@
 # Environment variables file
 set_env_var.sh
 
+# Kubeconfig file
+kubeconfig
+
 # Local .terraform directories
 **/.terraform/*
 
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+# Terraform dependency lock file
+.terraform.lock.*
 
 # Crash log files
 crash.log
